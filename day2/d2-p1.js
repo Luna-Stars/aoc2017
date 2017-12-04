@@ -2,7 +2,7 @@
 
 // read input
 fs = require('fs');
-fs.readFile('d2-p1.txt', 'utf8', function(err, data) {
+fs.readFile('d2-input.txt', 'utf8', function(err, data) {
   if (err) { return console.log(err); }
 
   var final_array = [];
