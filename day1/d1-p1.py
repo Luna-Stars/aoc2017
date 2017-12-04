@@ -3,7 +3,7 @@
 # Alex Johnson
 
 # Read input #
-input_f = open("d1-p1-input.txt", "r")
+input_f = open("d1-input.txt", "r")
 input_txt = input_f.readline().strip("\n")
 input_f.close()
 
