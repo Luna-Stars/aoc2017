@@ -45,3 +45,7 @@ print()
 
 # Total walk
 print("Total walk: " + str(min_dist + ring_dist))
+
+# For part 2, the sequence is in an encyclopedia. Just scroll through the table until you find an entry bigger than
+# your input.
+
