@@ -1,3 +1,7 @@
+# Advent of Code 2017
+# Alex Johnson
+# Day 18
+
 # input
 input_file = open("input.txt", "r")
 instrs = input_file.readlines()
@@ -6,6 +10,7 @@ input_file.close()
 for i in range(len(instrs)):
   instrs[i] = instrs[i].strip("\n")
 
+print("[PART 1]")
 # run instructions
 registers = {}
 last_sound = 0
@@ -53,3 +58,5 @@ while pos < len(instrs):
       pos += val
       continue
   pos += 1
+
+print("[PART 2]")
