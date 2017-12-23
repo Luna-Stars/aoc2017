@@ -14,17 +14,37 @@ My solutions to http://adventofcode.com/ for 2017. Most solutions in Python.
 - [ ] Day 24
 - [ ] Day 25
 
-Upcoming:
-- conversion of all solutions to Python
-- ensuring all solutions read from input.txt
-- python package config
-- moving reused code to a 'lib' package
-- solution documentation and optimization
+### Code cleanup:
+This is happening in branch `cleanup`!
 
-## During AoC
+Checklist for cleanup:
+* convert solution to Python
+* make sure it reads input from `input.txt` in the respective directory
+* document and optimize solution
 
-AoC lines right up with finals week, so I'll be behind for a little while.
-
-## After AoC
-
-Starting December 25, I'll be starting to clean up my solutions and make them more readable.
+Progress:
+- [ ] Day 1
+- [ ] Day 2
+- [ ] Day 3
+- [ ] Day 4
+- [ ] Day 5
+- [ ] Day 6
+- [ ] Day 7
+- [ ] Day 8
+- [ ] Day 9
+- [ ] Day 10
+- [ ] Day 11
+- [ ] Day 12
+- [ ] Day 13
+- [ ] Day 14
+- [ ] Day 15
+- [ ] Day 16
+- [ ] Day 17
+- [ ] Day 18
+- [ ] Day 19
+- [ ] Day 20
+- [ ] Day 21
+- [ ] Day 22
+- [ ] Day 23
+- [ ] Day 24
+- [ ] Day 25 
