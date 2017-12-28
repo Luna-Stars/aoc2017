@@ -15,8 +15,6 @@ My solutions to http://adventofcode.com/ for 2017. Most solutions in Python.
 - [x] Day 25
 
 ### Code cleanup:
-This is happening in branch `cleanup`!
-
 Checklist for cleanup:
 * convert solution to Python
 * make sure it reads input from `input.txt` in the respective directory
