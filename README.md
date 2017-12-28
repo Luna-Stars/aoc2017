@@ -7,12 +7,12 @@ My solutions to http://adventofcode.com/ for 2017. Most solutions in Python.
 - [x] *Days 1-17*
 - [ ] **Day 18: in progress**
 - [x] Day 19
-- [ ] Day 20
+- [x] Day 20
 - [ ] Day 21
 - [ ] Day 22
 - [ ] **Day 23: in progress**
-- [ ] Day 24
-- [ ] Day 25
+- [x] Day 24
+- [x] Day 25
 
 ### Code cleanup:
 This is happening in branch `cleanup`!
@@ -47,4 +47,4 @@ Progress:
 - [ ] Day 22
 - [ ] Day 23
 - [ ] Day 24
-- [ ] Day 25 
+- [ ] Day 25
