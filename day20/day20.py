@@ -2,6 +2,7 @@
 # Alex Johnson
 # Day 20
 
+from operator import add
 import sys, math
 
 # Parse input
@@ -32,14 +33,54 @@ def extract_mins(points, i):
             mins.append(point)
     return mins
 
+def add(p1, p2):
+    new = []
+    for i in range(len(p1)):
+        new.append(p1[i] + p2[i])
+    return new
+
 # Solve part 1
 print("[PART 1]")
 
 # To solve part 1, extract all points with minimum acceleration,
 # then minimum velocity, then minimum position.
 min_acc = extract_mins(points, ACC)
-print(min_acc)
 min_vel = extract_mins(min_acc, VEL)
-print(min_vel)
 min_pos = extract_mins(min_vel, POS)
 print(points.index(min_pos[0]))
+
+# Solve part 2
+print("[PART 2]")
+
+def move(point):
+    acc = point[ACC]
+    vel = add(point[VEL], acc)
+    pos = add(point[POS], vel)
+    return [pos, vel, acc]
+
+def deep_eq(p1, p2):
+    for i in range(len(p1)):
+        if p1[i] != p2[i]: return False
+    return True
+
+def pos_checksum(pos):
+    return str(pos[0]) + "/" + str(pos[1]) + "/" + str(pos[2])
+
+for i in range(1000):  # TODO detect that points aren't moving towards eachother
+    pts = {}
+    for j in range(len(points)):
+        chk = pos_checksum(points[j][POS])
+        if chk in pts.keys():
+            pts[chk].append(points[j])
+        else:
+            pts[chk] = [points[j]]
+
+    for key in pts.keys():
+        if len(pts[key]) > 1:
+            for p in pts[key]:
+                points.remove(p)
+
+    for j in range(len(points)):
+        points[j] = move(points[j])
+
+print(len(points))
