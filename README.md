@@ -21,8 +21,7 @@ Checklist for cleanup:
 * document and optimize solution
 
 Progress:
-- [x] *Days 1-3*
-- [ ] Day 4
+- [x] *Days 1-4*
 - [ ] Day 5
 - [ ] Day 6
 - [ ] Day 7
