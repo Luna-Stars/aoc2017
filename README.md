@@ -6,9 +6,7 @@ My solutions to http://adventofcode.com/ for 2017. All final solutions will be i
 ### Basic solutions:
 - [x] *Days 1-17*
 - [ ] **Day 18: in progress**
-- [x] *Days 19-22*
-- [ ] **Day 23: in progress**
-- [x] *Days 24-25*
+- [x] *Days 19-25*
 
 ### Code cleanup:
 Checklist for cleanup:
