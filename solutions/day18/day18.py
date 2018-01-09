@@ -49,8 +49,9 @@ def mod(reg, val, regs):
 
 
 def rcv(reg, queue, regs):
-    if get_val(reg, regs) != 0:
-        print(queue.pop())
+    if len(queue) == 0:
+        return False
+    regs[reg] = queue.pop()
 
 
 def jgz(reg, val, regs):
@@ -67,7 +68,19 @@ class ProgramState:
         self.in_queue = in_queue
         self.instrs = instrs
         self.pos = 0
-        self.can_continue = True
+        self.snd_count = 0
+        self.pid = 0
+
+    def can_continue(self):
+        if self.pos >= len(self.instrs):
+            return False
+        instr = instrs[self.pos].split(" ")
+        key = instr[0]
+        if key != "rcv":
+            return True
+        if len(self.in_queue) > 0:
+            return True
+        return False
 
     def advance(self):
         instr = instrs[self.pos].split(" ")
@@ -81,6 +94,7 @@ class ProgramState:
         # handle instructions
         if key == "snd":
             snd(reg, self.out_queue, self.regs)
+            self.snd_count += 1
         elif key == "set":
             set(reg, val, self.regs)
         elif key == "add":
@@ -90,10 +104,9 @@ class ProgramState:
         elif key == "mod":
             mod(reg, val, self.regs)
         elif key == "rcv":
-            if len(self.in_queue) == 0:
-                self.can_continue = False
-            else:
-                rcv(reg, self.in_queue, self.regs)
+            val = rcv(reg, self.in_queue, self.regs)
+            if not val:
+                return
         elif key == "jgz":
             jmp = jgz(reg, val, self.regs)
             if jmp != 0:
@@ -106,9 +119,28 @@ print("[PART 1]")
 # run instructions
 ps = ProgramState(instrs, [])
 
-while ps.can_continue:
+while ps.can_continue():
     ps.advance()
 
 print(ps.out_queue[-1])
 
 print("[PART 2]")
+# prep programs
+p0_in_queue = []
+p1_in_queue = []
+
+ps0 = ProgramState(instrs, p0_in_queue)
+ps1 = ProgramState(instrs, p1_in_queue)
+ps0.out_queue = p1_in_queue
+ps1.out_queue = p0_in_queue
+ps0.regs['p'] = 0
+ps1.regs['p'] = 1
+ps1.pid = 1
+
+iteration = 0
+blocking = False
+while True:
+    iteration += 1
+    ps1.advance()
+    ps0.advance()
+    print(ps1.snd_count)
