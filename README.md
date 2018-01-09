@@ -9,7 +9,7 @@ My solutions to http://adventofcode.com/ for 2017. All final solutions will be i
 - [x] *Day 19*
 - [x] *Day 20*
 - [ ] Day 21
-- [ ] Day 22
+- [x] *Day 22*
 - [ ] **Day 23: in progress**
 - [x] *Day 24*
 - [x] *Day 25*
