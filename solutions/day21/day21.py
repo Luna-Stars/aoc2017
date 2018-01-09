@@ -2,84 +2,86 @@
 # Alex Johnson
 # Day 21
 
-# input
-with open("input.txt", "r") as infile:
-    rules = {}
-    for line in infile:
-        splitline = line.split(" => ")
-        rules[splitline[0].strip()] = splitline[1].strip()
+# helpers
+def flatten(grid): return "/".join(["".join(row) for row in grid])
+def expand(flat): return [list(row) for row in flat.split("/")]
+def slice2d(grid, ox, oy, ix, iy): return [row[ix:iy] for row in grid[ox:oy]]
+def rotate(grid): return [list(row) for row in zip(*grid[::-1])]
+def flip_horiz(grid): return [row[::-1] for row in grid]
+def flip_vert(grid): return grid[::-1]
 
-# starting grid
-art = [['.','#','.'],['.','.','#'],['#','#','#']]
+def get_match(rule, rules):
+    if flatten(rule) in rules.keys():
+        return rules[flatten(rule)]
+    return None
 
-# helper functions
-def flatten(grid):
-    return "/".join(["".join(x) for x in grid])
+def get_match_flip(rule, rules):
+    keys = []
+    keys.append(rule)
+    keys.append(flip_horiz(rule))
+    keys.append(flip_vert(rule))
+    for key in keys:
+        val = get_match(key, rules)
+        if val: return val
+    return None
 
-def expand(flat):
-    return [list(x) for x in flat.split("/")]
+def match(rule, rules):
+    keys = []
+    for i in range(4):
+        keys.append(rule)
+        rule = rotate(rule)
+    for key in keys:
+        val = get_match_flip(key, rules)
+        if val: return val
+    return None
 
-def rotate(grid):
-    return [list(x) for x in zip(*grid[::-1])]
 
-def flip_horiz(grid):
-    return [x[::-1] for x in grid]
+# get input
+rules = {}
+with open('input.txt', 'r') as infile:
+    lines = [line.strip().split(" => ") for line in infile]
+    for line in lines:
+        rules[line[0]] = line[1]
 
-def flip_vert(grid):
-    return grid[::-1]
+# perform loop
+grid = [list(".#."), list("..#"), list("###")]
 
-def match_straight(grid, rule):
-    return flatten(grid) == rule
-
-def match_flip(grid, rule):
-    return match_straight(grid, rule) or match_straight(flip_vert(grid), rule) or match_straight(flip_horiz(grid), rule) or match_straight(flip_horiz(flip_vert(grid)), rule)
-
-def match(grid, rule):
-    return match_flip(grid, rule) or match_flip(rotate(grid), rule) or match_flip(rotate(rotate(grid)), rule) or match_flip(rotate(rotate(rotate(grid))), rule)
-
-def slice2d(matrix, start_row, end_row, start_col, end_col):
-    return [row[start_col:end_col] for row in matrix[start_row:end_row]]
-
-def transplant(matrix, sub_block, start_row, start_col):
-    for i in range(len(sub_block)):
-        mi = i + start_row
-        print(i)
-        for j in range(len(sub_block)):
-            mj = j + start_col
-            matrix[mi][mj] = sub_block[i][j]
-
-# logic functions
-def iterate(art, rules):
-    # determine number of squares in a row
-    squares = len(art)//2 if len(art) % 2 == 0 else len(art)//3
-    size = 2 if len(art) % 2 == 0 else 3
-    # compute size of new grid
-    grid_width = squares * (size + 1)
-    # build new grid
-    grid = [[None]*squares]*squares
-    # identify rules
-    for i in range(0,len(art),size):
-        for j in range(0,len(art[0]),size):
-            block = slice2d(art, i, i+size, j, j+size)
-            for key in rules.keys():
-                if match(block, key):
-                    new_block = expand(rules[key])
-                    grid[i//size][j//size] = new_block
-    # join rules
-    new_art = []
-    for row in grid:
-        for i in range(size+1):
-            next_row = []
-            for rule in row:
-                next_row += rule[i]
-            new_art.append(next_row)
-    return new_art
-
-print("[PART 1]")
-
-for i in range(2):
-    art = iterate(art, rules)
+# perform iterations
+for Z in range(18):
+    # step 1: determine the size and count of the subpatterns
+    size = 3
+    if len(grid) % 2 == 0: size = 2
+    count = len(grid) // size
+    # step 2: break the grid into subpatterns
+    patterns = []
+    for i in range(0, len(grid), size):
+        row = []
+        for j in range(0, len(grid), size):
+            subpattern = slice2d(grid, i, i+size, j, j+size)
+            row.append(subpattern)
+        patterns.append(row)
+    # step 3: match each pattern with a rule and swap
+    for i in range(len(patterns)):
+        for j in range(len(patterns)):
+            new_pattern = match(patterns[i][j], rules)
+            patterns[i][j] = new_pattern
+    # step 4: expand patterns into arrays
+    for i in range(len(patterns)):
+        for j in range(len(patterns)):
+            patterns[i][j] = expand(patterns[i][j])
+    # step 5: join patterns
+    new_grid = []
+    for i in range(len(patterns)):
+        for j in range(len(patterns[i][0])): # row of pattern to join
+            new_row = []
+            for pattern in patterns[i]:
+                new_row += pattern[j]
+            new_grid.append(new_row)
+    grid = new_grid
 
 count_on = 0
-for line in art:
-    print("".join(line))
+for line in grid:
+    for char in line:
+        if char == '#':
+            count_on += 1
+print(count_on)
