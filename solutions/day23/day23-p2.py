@@ -1,40 +1,21 @@
 # Advent of Code 2017
 # Alex Johnson
 # Day 23
+# decompiled assembly
 
-# TODO decompile input.txt
-b = 65
-c = 65
-b *= 100
-b += 100000
-c = b
-c += 17000
-h = 0
+import math
 
-while True:
-    f = 1
-    d = 2
-    while True:
-        e = 2
-        while True:
-            g = d
-            g *= e
-            g -= b
-            if g == 0:
-                f = 0
-            e += 1
-            g = e
-            g -= b
-        g += 8
-        d += 1
-        g = d
-        g -= b
-    if f == 0:
-        h += 1
-    g = b
-    g -= c
-    if g == 0:
-        break
-    b += 17
+start = (65 * 100) + 100000
+count = 0
 
-print(h)
+def prime(a):
+    for i in range(2, int(math.sqrt(a)) + 1):
+        if a % i == 0:
+            return False
+    return True
+
+for i in range(start, start + 17001, 17):
+    if not prime(i):
+        count += 1
+
+print(count)
