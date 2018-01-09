@@ -1,6 +1,6 @@
 # Advent of Code 2017
 # Alex Johnson
-# Day 22
+# Day 22, part 1
 
 # direction constants
 UP = 0
